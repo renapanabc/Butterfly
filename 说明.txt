@@ -1,22 +1,7 @@
-大体框架
-登录功能
-日志打印参数
-权限树查询
-subMenu-用户菜单引入
-初步完成动态菜单
-完成动态菜单+点击事件
-分页拦截器基本完成
-分页拦截器可以使用
-userlist-demo
-分页+计数
-前端显示大致完成 
-去掉动态菜单，采用apache shiro
+基础框架：springMVC+spring+Mybatis
+连接池：Druid
+菜单控制：Apache shiro暂未实现请求路径控制
+分页使用了mybatis拦截器
 
-
-左右风格
-系统缓存+界面下拉框
-request收集器
-session拦截
-tabel页设计
-统一的异常处理
-弹出框组件
+前端：
+bootstrap+jquyer+bootstrap table
