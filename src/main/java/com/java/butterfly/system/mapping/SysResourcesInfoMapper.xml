@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java.butterfly.system.dao.SysResourcesInfoMapper">
+  <resultMap id="BaseResultMap" type="com.java.butterfly.system.entity.SysResourcesInfo">
+    <id column="RESOURCE_CODE" jdbcType="VARCHAR" property="resourceCode" />
+    <result column="RESOURCE_NAME" jdbcType="VARCHAR" property="resourceName" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="CREATE_DATE" jdbcType="DATE" property="createDate" />
+    <result column="MODIFY_DATE" jdbcType="DATE" property="modifyDate" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    RESOURCE_CODE, RESOURCE_NAME, STATUS, CREATE_DATE, MODIFY_DATE
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_RESOURCES_INFO
+    where RESOURCE_CODE = #{resourceCode,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from SYS_RESOURCES_INFO
+    where RESOURCE_CODE = #{resourceCode,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.java.butterfly.system.dao.SysResourcesInfoMapper">
+    insert into SYS_RESOURCES_INFO (RESOURCE_CODE, RESOURCE_NAME, STATUS, 
+      CREATE_DATE, MODIFY_DATE)
+    values (#{resourceCode,jdbcType=VARCHAR}, #{resourceName,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=DATE}, #{modifyDate,jdbcType=DATE})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.java.butterfly.system.dao.SysResourcesInfoMapper">
+    insert into SYS_RESOURCES_INFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="resourceCode != null">
+        RESOURCE_CODE,
+      </if>
+      <if test="resourceName != null">
+        RESOURCE_NAME,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="modifyDate != null">
+        MODIFY_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="resourceCode != null">
+        #{resourceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceName != null">
+        #{resourceName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.java.butterfly.system.dao.SysResourcesInfoMapper">
+    update SYS_RESOURCES_INFO
+    <set>
+      <if test="resourceName != null">
+        RESOURCE_NAME = #{resourceName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="modifyDate != null">
+        MODIFY_DATE = #{modifyDate,jdbcType=DATE},
+      </if>
+    </set>
+    where RESOURCE_CODE = #{resourceCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.java.butterfly.system.dao.SysResourcesInfoMapper">
+    update SYS_RESOURCES_INFO
+    set RESOURCE_NAME = #{resourceName,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=DATE},
+      MODIFY_DATE = #{modifyDate,jdbcType=DATE}
+    where RESOURCE_CODE = #{resourceCode,jdbcType=VARCHAR}
+  </update>
+</mapper>

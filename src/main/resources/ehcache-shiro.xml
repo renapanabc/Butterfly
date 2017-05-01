@@ -1,0 +1,21 @@
+<ehcache>
+    <diskStore path="java.io.tmpdir/billionsfinance"/>
+	<defaultCache maxElementsInMemory="500"
+                  eternal="false"
+                  timeToLiveSeconds="120"
+                  overflowToDisk="false"
+                  diskPersistent="false"
+                  memoryStoreEvictionPolicy="LRU"
+            />
+    <cache name="shiro-activeSessionCache"
+           maxElementsInMemory="500"
+           eternal="true"
+           overflowToDisk="true"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600"/>
+    <cache name="org.apache.shiro.realm.SimpleAccountRealm.authorization"
+           maxElementsInMemory="100"
+           eternal="true"
+           timeToLiveSeconds="600"
+           overflowToDisk="false"/>
+</ehcache>

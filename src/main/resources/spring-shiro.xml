@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-4.0.xsd"
+	default-lazy-init="true">
+	
+	<description>Shiro Configuration</description>
+
+	<!-- Shiro Filter -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<!-- shiro的核心安全接口 -->
+		<property name="securityManager" ref="securityManager" />
+		<!-- 要求登录时的链接 -->
+		<property name="loginUrl" value="../login.jsp" />
+		<!-- 未认证时要跳转的连接 -->
+		<property name="unauthorizedUrl" value="/unauthor.html" />
+		<!--默认权限 -->
+		<property name="filterChainDefinitions">
+			<value>
+				/user/login/** = anon
+			</value>
+		</property>
+	</bean>
+
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="cacheManager" ref="cacheManager"/>
+		<property name="realm" ref="webRealm" />
+	</bean>
+
+	<!-- 用户授权信息Cache, 采用EhCache -->
+	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml" />  
+	</bean>
+
+	<!-- 项目自定义的Realm -->
+	<bean id="webRealm" class="com.java.butterfly.system.shiroSecurity.WebRealm">
+		<property name="authorizationCacheName" value="shiro.authorizationCache"/> 
+	</bean>
+
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+	
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+
+	<!-- Enable Shiro Annotations for Spring-configured beans. Only run after 
+		the lifecycleBeanProcessor has run: -->
+	<bean
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		depends-on="lifecycleBeanPostProcessor">
+		<!-- <property name="proxyTargetClass" value="true" /> 和struts结合使用必须把该属性设置为true，否则使用注解出错 -->
+	</bean>
+
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="org.apache.shiro.SecurityUtils.setSecurityManager" />
+		<property name="arguments" ref="securityManager" />
+	</bean>
+
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+</beans>

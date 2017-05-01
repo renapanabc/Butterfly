@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java.butterfly.system.dao.SysRoleResourcesMapper">
+  <resultMap id="BaseResultMap" type="com.java.butterfly.system.entity.SysRoleResources">
+    <result column="ROLE_ID" jdbcType="VARCHAR" property="roleId" />
+    <result column="RESOURCES_CODE" jdbcType="VARCHAR" property="resourcesCode" />
+  </resultMap>
+  
+  <insert id="insert" parameterType="com.java.butterfly.system.entity.SysRoleResources">
+    insert into SYS_ROLE_RESOURCES (ROLE_ID, RESOURCES_CODE)
+    values (#{roleId,jdbcType=VARCHAR}, #{resourcesCode,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.java.butterfly.system.entity.SysRoleResources">
+    insert into SYS_ROLE_RESOURCES
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        ROLE_ID,
+      </if>
+      <if test="resourcesCode != null">
+        RESOURCES_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="resourcesCode != null">
+        #{resourcesCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java.butterfly.system.dao.SysUserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.java.butterfly.system.entity.SysUserInfo">
+    <result column="USER_ID" jdbcType="DECIMAL" property="userId" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="USER_REAL_NAME" jdbcType="VARCHAR" property="userRealName" />
+    <result column="USER_PWD" jdbcType="VARCHAR" property="userPwd" />
+    <result column="USER_PHONE" jdbcType="VARCHAR" property="userPhone" />
+    <result column="USER_DESC" jdbcType="VARCHAR" property="userDesc" />
+    <result column="ROLE_ID" jdbcType="DECIMAL" property="roleId" />
+    <result column="CREATE_DATE" jdbcType="DATE" property="createDate" />
+    <result column="MODIFY_DATE" jdbcType="DATE" property="modifyDate" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List">
+    USER_ID, USER_NAME, USER_REAL_NAME,USER_PWD, USER_PHONE, USER_DESC,ROLE_ID,STATUS, CREATE_DATE, MODIFY_DATE
+  </sql>
+  
+   <select id="selectByExample" parameterType="Map" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List" />
+      from SYS_USER_INFO 
+      WHERE 1=1 
+      <if test="userId != null">
+       AND USER_ID=#{userId,jdbcType=DECIMAL} 
+      </if>
+      <if test="userName != null">
+       AND USER_NAME=#{userName,jdbcType=VARCHAR} 
+      </if>
+      <if test="userPwd != null"> 
+       AND USER_PWD=#{userPwd,jdbcType=VARCHAR} 
+      </if>
+  </select>
+    
+   <select id="queryByUserName" parameterType="Map" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List" />
+      from SYS_USER_INFO 
+      WHERE ROWNUM=1
+      <if test="userName != null">
+       and USER_NAME=#{userName,jdbcType=DECIMAL}
+      </if>
+  </select>
+  
+<!--   XXXByPage可以让拦截器启动分页 -->
+  <select id="queryListByPage" parameterType="Map" resultMap="BaseResultMap">
+		SELECT USER_ID,
+		       USER_NAME,
+		       USER_REAL_NAME,
+		       USER_PWD,
+		       USER_PHONE,
+		       USER_DESC,
+		       SUI.ROLE_ID,
+		       SUI.STATUS,
+		       SUI.CREATE_DATE,
+		       SUI.MODIFY_DATE,
+		       SRI.ROLE_NAME
+		  FROM SYS_USER_INFO SUI
+		  LEFT JOIN SYS_ROLE_INFO SRI
+		  ON SUI.ROLE_ID=SRI.ROLE_ID 
+		 WHERE 1 = 1
+      <if test="userName != null">
+       AND USER_NAME like #{userName,jdbcType=VARCHAR} 
+      </if>
+      <if test="userRealName != null">
+       AND USER_NAME like #{userRealName,jdbcType=VARCHAR} 
+      </if>
+  </select>
+  
+  <!--  单独的计算count，避免order by等影响性能 -->
+  <select id="queryListByPageCount" parameterType="Map" resultType="INTEGER">
+      select count(1) total
+      from SYS_USER_INFO 
+      WHERE 1=1 
+      <if test="userName != null">
+       AND USER_NAME like #{userName,jdbcType=VARCHAR} 
+      </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from SYS_USER_INFO
+    where USER_ID = #{userId,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="com.java.butterfly.system.entity.SysUserInfo">
+    insert into SYS_USER_INFO (USER_ID, USER_NAME, USER_REAL_NAME, 
+      USER_PWD, USER_PHONE, USER_DESC, 
+      ROLE_ID, CREATE_DATE, MODIFY_DATE, 
+      STATUS)
+    values (#{userId,jdbcType=DECIMAL}, #{userName,jdbcType=VARCHAR}, #{userRealName,jdbcType=VARCHAR}, 
+      #{userPwd,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, #{userDesc,jdbcType=VARCHAR}, 
+      #{roleId,jdbcType=DECIMAL}, #{createDate,jdbcType=DATE}, #{modifyDate,jdbcType=DATE}, 
+      #{status,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.java.butterfly.system.entity.SysUserInfo">
+    insert into SYS_USER_INFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="userName != null">
+        USER_NAME,
+      </if>
+      <if test="userRealName != null">
+        USER_REAL_NAME,
+      </if>
+      <if test="userPwd != null">
+        USER_PWD,
+      </if>
+      <if test="userPhone != null">
+        USER_PHONE,
+      </if>
+      <if test="userDesc != null">
+        USER_DESC,
+      </if>
+      <if test="roleId != null">
+        ROLE_ID,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="modifyDate != null">
+        MODIFY_DATE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userRealName != null">
+        #{userRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPwd != null">
+        #{userPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userDesc != null">
+        #{userDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=DECIMAL},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=DATE},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+</mapper>

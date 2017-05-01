@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans    
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd    
+                        http://www.springframework.org/schema/context    
+                        http://www.springframework.org/schema/context/spring-context-3.1.xsd    
+                        http://www.springframework.org/schema/mvc    
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+                        http://code.alibabatech.com/schema/dubbo 
+        				http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        				http://www.springframework.org/schema/tx 
+        				http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        				http://www.springframework.org/schema/aop 
+        				http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+      				    ">
+	
+<!-- 自动扫描 -->
+	<context:component-scan base-package="com.java.butterfly..*" />
+
+<!-- 其他配置文件 -->
+	<import resource="classpath:dataSource.xml"/>
+	<import resource="classpath:spring-shiro.xml"/>
+
+<!-- spring整合MyBatis-->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+	    <property name="configLocation" value="classpath:mybatis-config.xml"/>  
+		<!-- 自动扫描mapping.xml文件 -->
+		<property name="mapperLocations" value="classpath:com/java/butterfly/system/mapping/*.xml" />
+	</bean>
+
+<!-- 定义DAO接口，Mybatis会自动扫描生成代理注入到Spring，因此不用谢DAO实现类 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.java.butterfly.*.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+	</bean>
+
+<!-- *****************************事务管理start***************************** -->
+<!-- 定义事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+<!-- 声明事物规则，指向事务管理器-->
+	<tx:advice id="transactionAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="query*" read-only="true" />
+			<tx:method name="select*" read-only="true" />
+			<tx:method name="save*" rollback-for="Throwable" />
+			<tx:method name="insert*" rollback-for="Throwable" />
+			<tx:method name="update*" rollback-for="Throwable" />
+			<tx:method name="delete*" rollback-for="Throwable" />
+			<tx:method name="insertTask" rollback-for="Throwable" />
+		</tx:attributes>
+	</tx:advice>
+	
+<!-- 定义规则切面，指向事物规则 -->
+	<aop:config>
+		<aop:pointcut id="transactionPointcut"
+			expression="execution(* com.java.butterfly.*.service.*.*(..))" />
+		<aop:advisor pointcut-ref="transactionPointcut"
+			advice-ref="transactionAdvice" />
+	</aop:config>
+<!-- *****************************事务管理end***************************** -->
+	
+</beans>
