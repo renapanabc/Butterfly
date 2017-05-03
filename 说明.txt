@@ -5,3 +5,7 @@
 
 前端：
 bootstrap+jquyer+bootstrap table
+
+
+注意事项：
+如果使用jrebel，记得删除resources里面的rebel.xml然后再update project；因为此文件不会替换原有的会导致热部署失败
