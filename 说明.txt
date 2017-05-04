@@ -9,3 +9,19 @@ bootstrap+jquyer+bootstrap table
 
 注意事项：
 如果使用jrebel，记得删除resources里面的rebel.xml然后再update project；因为此文件不会替换原有的会导致热部署失败
+
+
+
+
+
+
+
+
+
+
+
+
+
+统一的exception
+统一的会话控制
+ibatis拦截器实现统一sql日志输出
