@@ -15,25 +15,20 @@
 <title></title>
 
 <!-- CSS START  -->
-<link rel="stylesheet" type="text/css" href="plugins/bootstrap/v3.3.7/css/bootstrap.min.css" >
-<link rel="stylesheet" type="text/css" href="plugins/bootstrap/v3.3.7/css/bootstrap-theme.min.css" >
-<link rel="stylesheet" type="text/css" href="plugins/jquery-confirm/jquery-confirm.css" />
-<link rel="stylesheet" type="text/css" href="css/common/common.css" />
-
+<link rel="stylesheet" href="<%=basePath%>plugins/bootstrap-3.3.7/dist/css/bootstrap.min.css" >
+<link rel="stylesheet" href="<%=basePath%>plugins/bootstrap-3.3.7/dist/css/bootstrap-theme.min.css" >
+<link rel="stylesheet" href="<%=basePath%>plugins/jquery-confirm/jquery-confirm.css" />
+<link rel="stylesheet" href="<%=basePath%>css/common/common.css" />
 <!-- 	CSS END -->
-
 </head>
 
 <body>
 </body>
-
 <!-- JS START -->
-<script type="text/javascript" src="plugins/jquery/jquery-1.12.2.min.js"></script>
-<script type="text/javascript" src="plugins/bootstrap/v3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="plugins/jquery-confirm/jquery-confirm.js"></script>
-<script type="text/javascript" src="js/common/common.js"></script>
-
-</head>
+<script type="text/javascript" src="<%=basePath%>plugins/jquery/jquery-1.12.2.min.js"></script>
+<script type="text/javascript" src="<%=basePath%>plugins/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="<%=basePath%>plugins/jquery-confirm/jquery-confirm.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/common/common.js"></script>
 <!-- JS END -->
 
 </html>

@@ -33,17 +33,26 @@
 <body>
     <div class="container">
         <h3>用户信息</h3>
+        <div id="toolbar">
+            <div class="form-inline" role="form">
+              	<div class="form-group">
+                    <span></span>
+                    <input id="keyWords" class="form-control" type="text" placeholder="输入关键字查询...">
+                </div>
+                <button id="ok" class="btn btn-default"  onclick="refresh();" >查询</button>
+            </div>
+        </div>
         <table id="table"
                data-toggle="table"
                data-height="460"
                data-toolbar="#toolbar"
-               data-search="true"
                data-show-refresh="true"
                data-show-toggle="true"
                data-show-columns="true"
+               data-query-params="queryParams"
                data-side-pagination="server"
                data-pagination="true" 
-               data-page-list="[5, 10, 20, 50, 100, 200]"
+               data-page-list="[10, 20, 50, 100]"
                data-url="userInfo/getUsersList">
             <thead>
 	            <tr>
@@ -61,10 +70,7 @@
 </body>
 
 <!-- JS START -->
-<script type="text/javascript" src="js/system/userInfo.js"></script>
-
-<script type="text/javascript">
-</script>
+<script type="text/javascript" src="<%=basePath%>js/system/userInfo.js"></script>
 <!-- JS END -->
 
 </html>

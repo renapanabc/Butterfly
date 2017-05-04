@@ -17,12 +17,11 @@
 <!-- using bootstrap table -->
 <!-- CSS START  -->
 <link rel="stylesheet" type="text/css" href="plugins/bootstrap-table/bootstrap-table.min.css" >
-<link rel="stylesheet" type="text/css" href="css/common/common_table.css" >
 <!-- 	CSS END -->
 
 <!-- JS START -->
 <script type="text/javascript" src="plugins/bootstrap-table/bootstrap-table.min.js"></script>
-<!-- 插件增强 -->
+<script type="text/javascript" src="plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
 <script type="text/javascript" src="js/common/common_table.js"></script>
 <!-- JS END -->
 
