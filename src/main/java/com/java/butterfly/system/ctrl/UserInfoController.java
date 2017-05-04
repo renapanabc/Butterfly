@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.java.butterfly.common.util.DataCollecter;
+import com.java.butterfly.common.util.HttpRequestUtil;
 import com.java.butterfly.system.dto.UserInfoDTO;
+import com.java.butterfly.system.entity.SysUserInfo;
 import com.java.butterfly.system.service.IUserInfoService;
 
 @Controller
@@ -26,26 +27,17 @@ public class UserInfoController {
         return new ModelAndView("views/system/userInfo");
     }
     
-    /**
-     * TODO(获取用户信息列表)    
-     * @author xl    
-     * @Title: getUsersList    
-     * @param request
-     * @throws Exception 
-     * @Return: Object 返回值
-     */
     @ResponseBody
     @RequestMapping(value = "/getUsersList")
-    public Object getUsersList(HttpServletRequest request) throws Exception {
-        UserInfoDTO userinfo = (UserInfoDTO) DataCollecter.collectionData(request, UserInfoDTO.class);
-        return userInfoService.queryListByPage(userinfo);
+    public Object getUsersList(HttpServletRequest request, UserInfoDTO userinfoDTO) throws Exception {
+        HttpRequestUtil.requestParametersShowLog(request);
+        return userInfoService.queryListByPage(userinfoDTO);
     }
     
     @ResponseBody
     @RequestMapping(value = "/getUserById")
     public Object getUserById(HttpServletRequest request) throws Exception {
-        UserInfoDTO userinfo = (UserInfoDTO) DataCollecter.collectionData(request, UserInfoDTO.class);
-        return userInfoService.getUserById(userinfo);
+        return userInfoService.getUserById(request.getParameter("userId"));
     }
     
     @ResponseBody
@@ -57,15 +49,13 @@ public class UserInfoController {
     
     @ResponseBody
     @RequestMapping(value = "/addUser")
-    public Object addUser(HttpServletRequest request) throws Exception {
-        UserInfoDTO userinfo = (UserInfoDTO) DataCollecter.collectionData(request, UserInfoDTO.class);
+    public Object addUser(HttpServletRequest request, SysUserInfo userinfo) throws Exception {
         return userInfoService.addUser(userinfo);
     }
     
     @ResponseBody
     @RequestMapping(value = "/updateUser")
-    public Object updateUser(HttpServletRequest request) throws Exception {
-        UserInfoDTO userinfo = (UserInfoDTO) DataCollecter.collectionData(request, UserInfoDTO.class);
+    public Object updateUser(HttpServletRequest request, SysUserInfo userinfo) throws Exception {
         return userInfoService.updateUser(userinfo);
     }
 }

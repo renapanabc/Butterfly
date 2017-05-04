@@ -15,7 +15,7 @@ public interface IUserInfoService {
      * @return 
      * @Return: Map 返回值
      */
-    public Map queryListByPage(UserInfoDTO userinfo);
+    public Map queryListByPage(UserInfoDTO userinfoDTO);
     
     /**
      * TODO(get user by Id)
@@ -25,7 +25,7 @@ public interface IUserInfoService {
      * @return 
      * @Return: ResultMsg 返回值
      */
-    public ResultMsg getUserById(UserInfoDTO user);
+    public ResultMsg getUserById(String id);
     
     /**
      * TODO(delete users)    
@@ -45,7 +45,7 @@ public interface IUserInfoService {
      * @return 
      * @Return: ResultMsg 返回值
      */
-    public ResultMsg addUser(UserInfoDTO user) throws Exception;
+    public ResultMsg addUser(SysUserInfo user) throws Exception;
     
     /**
      * TODO(update)    
@@ -55,7 +55,7 @@ public interface IUserInfoService {
      * @return 
      * @Return: ResultMsg 返回值
      */
-    public ResultMsg updateUser(UserInfoDTO user) throws Exception;
+    public ResultMsg updateUser(SysUserInfo user) throws Exception;
     
     /**
      *根据用户名查询用户 

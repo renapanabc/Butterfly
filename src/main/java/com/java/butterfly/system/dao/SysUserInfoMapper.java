@@ -22,7 +22,7 @@ public interface SysUserInfoMapper {
     
     List<SysUserInfo> selectByExample(SysUserInfo record);
     
-    List<SysUserInfo> queryListByPage(UserInfoDTO userinfo);
+    List<SysUserInfo> queryListByPage(UserInfoDTO userinfoDTO);
     
-    int queryListByPageCount(UserInfoDTO userinfo);
+    int queryListByPageCount(@Param(value = "keyWords") String keyWords);
 }

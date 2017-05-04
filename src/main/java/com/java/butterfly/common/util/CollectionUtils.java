@@ -1,8 +1,3 @@
-/**
- *@文件名称： CollectionUtils.java
- *@日期: 2016-5-20
- *@Copyright: 深圳市佰仟金融服务有限公司 2016.版权所有
- */
 package com.java.butterfly.common.util;
 
 import java.util.ArrayList;

@@ -91,28 +91,34 @@ public class PageInterceptor implements Interceptor {
     public PageInfo getPageInfoByParms(Object parametersObj) {
         if (PageInfo.class.isAssignableFrom(parametersObj.getClass())) {
             //如果参数就是pageInfo子类的封装
-            return newPageInfo(((PageInfo) parametersObj).getPageNo(), ((PageInfo) parametersObj).getPageSize());
-        } else {
+            return newPageInfo(((PageInfo) parametersObj).getLimit(), ((PageInfo) parametersObj).getOffset());
+        } else if (parametersObj.getClass().isAssignableFrom(Map.class)) {
             //如果参数是map
             Map<?, ?> parameterMap = (Map<?, ?>) parametersObj;
-            int pageNo = Integer.parseInt(String.valueOf(parameterMap.get("pageNo")));
-            int pageSize = Integer.parseInt(String.valueOf(parameterMap.get("pageSize")));
-            return newPageInfo(pageNo, pageSize);
+            return newPageInfo(parameterMap.get(PageInfo.LIMIT_FIELD_NAME), parameterMap
+                .get(PageInfo.OFFSET_FIELD_NAME));
+        } else {
+            return new PageInfo();
         }
     }
     
     /**
-     * TODO(new PageInfo)    
-     * @date: 2017年1月11日 上午11:26:06
+     * TODO：    
+     * @author xulu    
+     * @date: 2017年5月4日 下午3:59:31
      * @Title: newPageInfo    
-     * @param pageNo
-     * @param pageSize
+     * @param limt
+     * @param offset
      * @return PageInfo 返回值
      */
-    public PageInfo newPageInfo(Object pageNo, Object pageSize) {
+    public PageInfo newPageInfo(Object limt, Object offset) {
         PageInfo pageinfo = new PageInfo();
-        pageinfo.setPageNo(Integer.parseInt(String.valueOf(pageNo)));
-        pageinfo.setPageSize(Integer.parseInt(String.valueOf(pageSize)));
+        if (null != limt) {
+            pageinfo.setLimit(Integer.valueOf(String.valueOf(limt)));
+        }
+        if (null != offset) {
+            pageinfo.setOffset(Integer.valueOf(String.valueOf(offset)));
+        }
         return pageinfo;
     }
     
@@ -125,19 +131,22 @@ public class PageInterceptor implements Interceptor {
      * @return String 返回值
      */
     public String getPageSql(StringBuffer sql, PageInfo pageinfo) {
-        if (null == pageinfo || EmptyUtils.isEmpty(pageinfo.getPageNo())
-            || EmptyUtils.isEmpty(pageinfo.getPageSize())) {
+        if (null == pageinfo || EmptyUtils.isEmpty(pageinfo.getLimit()) || EmptyUtils.isEmpty(pageinfo.getOffset())) {
             logger.error("********调用分页sql但是未传递分页参数，系统默认不执行sql*******");
             return null;
         }
         if ("ORACLE".equals(dbType)) {
-            int startRecode = (pageinfo.getPageNo() - 1) * pageinfo.getPageSize() + 1;
-            int endRecode = pageinfo.getPageNo() * pageinfo.getPageSize() + 1;
+            //            int startRecode = (pageinfo.getPageNo() - 1) * pageinfo.getPageSize() + 1;
+            //            int endRecode = pageinfo.getPageNo() * pageinfo.getPageSize() + 1;
+            int startRecode = pageinfo.getOffset() + 1;
+            int endRecode = pageinfo.getOffset() + pageinfo.getLimit() + 1;
             sql.insert(0, "select u.*, rownum r from (").append(") u where rownum < ").append(endRecode);
             return sql.insert(0, "select * from (").append(") where r >= ").append(startRecode).toString();
         } else if ("MYSQL".equals(dbType)) {
-            int startRecode = (pageinfo.getPageNo() - 1) * pageinfo.getPageSize();
-            int endRecode = pageinfo.getPageNo() * pageinfo.getPageSize();
+            //            int startRecode = (pageinfo.getPageNo() - 1) * pageinfo.getPageSize();
+            //            int endRecode = pageinfo.getPageNo() * pageinfo.getPageSize(); 
+            int startRecode = pageinfo.getOffset();
+            int endRecode = pageinfo.getLimit() + pageinfo.getOffset();
             return sql.append(" limit ").append(startRecode).append(",").append(endRecode).toString();
         } else {
             logger.info("********找不到/不匹配 mybatis-config里面配置的dbType,当前分页只支持oracle and mysql********");

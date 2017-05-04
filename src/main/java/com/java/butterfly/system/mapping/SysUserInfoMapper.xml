@@ -60,11 +60,9 @@
 		  LEFT JOIN SYS_ROLE_INFO SRI
 		  ON SUI.ROLE_ID=SRI.ROLE_ID 
 		 WHERE 1 = 1
-      <if test="userName != null">
-       AND USER_NAME like #{userName,jdbcType=VARCHAR} 
-      </if>
-      <if test="userRealName != null">
-       AND USER_NAME like #{userRealName,jdbcType=VARCHAR} 
+      <if test="keyWords != null">
+       AND USER_NAME like #{keyWords,jdbcType=VARCHAR} 
+       AND USER_NAME like #{keyWords,jdbcType=VARCHAR} 
       </if>
   </select>
   
@@ -73,8 +71,9 @@
       select count(1) total
       from SYS_USER_INFO 
       WHERE 1=1 
-      <if test="userName != null">
-       AND USER_NAME like #{userName,jdbcType=VARCHAR} 
+      <if test="keyWords != null">
+       AND USER_NAME like #{keyWords,jdbcType=VARCHAR} 
+       AND USER_NAME like #{keyWords,jdbcType=VARCHAR} 
       </if>
   </select>
   
